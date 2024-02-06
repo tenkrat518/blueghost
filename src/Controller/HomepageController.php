@@ -61,10 +61,62 @@ final class HomepageController extends AbstractController
                 return $this->redirect('/');
             }
             
-            return $this->render('default/edit.html.twig', [
+            return $this->render('default/form.html.twig', [
                 'form' => $form
             ]);
         
+    }
+
+
+    #[Route('/{slug}', name: 'edit')]
+    public function editAction(
+        EntityManagerInterface $entityManager, 
+        Request $request,
+        string $slug,
+    ): Response
+    {   
+        $new = htmlspecialchars($slug, ENT_QUOTES);
+        //we divide slug into name and id
+        $array = explode("-", $slug);
+
+        //check if id is numeric
+        if(is_numeric($array[1])){
+
+            //find contact by id
+            $contact = $entityManager->getRepository(Contact::class)->findOneBy([
+                'id' => $array[1]
+            ]);
+
+            //creat form from ContactType
+            $form = $this->createForm(ContactType::class, $contact);
+            
+            $form->handleRequest($request);
+            //check if data is ubmitted and valid
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+                //Now we get the code and save it
+                $contact = $form->getData();
+                $slug = preg_replace('/[^\p{L}\p{N}-]+/u', '', $contact->getLastname());
+                $slug = preg_replace('/\b\w*\d\w*\b-?/', '', $slug);
+                $contact->setSlug($slug);
+
+                $entityManager->persist($contact);
+                $entityManager->flush();
+
+
+                //redirect to homepage
+                return $this->redirect('/');
+            }
+            
+            return $this->render('default/form.html.twig', [
+                'form' => $form
+            ]);
+        }else{
+            //redirect to error page if someone plays with URL - joke
+            return $this->render('default/error.html.twig', [
+                'message' => 'Ne, nehraj si s URL adresou'
+            ]);
+        }
     }
 
     
