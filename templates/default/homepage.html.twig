@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <table>
+        <thead>
+            <th>Jméno</th>
+            <th>Příjmení</th>
+            <th>Telfonní číslo</th>
+            <th>Email</th>
+            <th>Poznámka</th>
+            <th>Editace</th>
+            <th>Mazání</th>
+        </thead>
+        <tbody>
+        {% for contact in contacts %}
+            <tr>
+            
+                <td data-id="{{contact.id}}" class="showNote">{{contact.firstname}}</td>
+                <td>{{contact.lastname}}</td>
+                <td>{{contact.pnumber}}</td>
+                <td>{{contact.email}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

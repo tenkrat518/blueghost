@@ -1,0 +1,13 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+# redirecting the root
+root:
+    path: /
+    defaults:
+        _controller: HomepageController:index
+        path: /app
+        permanent: true
