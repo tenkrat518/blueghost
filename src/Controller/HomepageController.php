@@ -35,4 +35,37 @@ final class HomepageController extends AbstractController
     }
 
     
+    #[Route('/add', name: 'add')]
+    public function addAction(
+        EntityManagerInterface $entityManager, 
+        Request $request,
+    ): Response
+    {
+            $contact = new Contact();
+            $form = $this->createForm(ContactType::class, $contact);
+            $form->handleRequest($request);
+            //check if data is ubmitted and valid
+            if ($form->isSubmitted() && $form->isValid()) {
+                
+                //Now we get the code and save it
+                $contact = $form->getData();
+                $slug = preg_replace('/[^\p{L}\p{N}-]+/u', '', $contact->getLastname());
+                $slug = preg_replace('/\b\w*\d\w*\b-?/', '', $slug);
+                $contact->setSlug($slug);
+                $contact->setDeleted(0);
+                $entityManager->persist($contact);
+                $entityManager->flush();
+
+
+                //redirect to homepage
+                return $this->redirect('/');
+            }
+            
+            return $this->render('default/edit.html.twig', [
+                'form' => $form
+            ]);
+        
+    }
+
+    
 }

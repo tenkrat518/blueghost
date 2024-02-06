@@ -2,6 +2,12 @@
 
 {% block body %}
 
+    <div id="modalWindow" class="modal">
+        <p id="note"></p>
+        <a href="#" rel="modal:close">Close</a>
+    </div>
+
+    <a href="{{path('add')}}"><button>Přidání kontaktu</button></a>
     <table>
         <thead>
             <th>Jméno</th>
@@ -20,6 +26,10 @@
                 <td>{{contact.lastname}}</td>
                 <td>{{contact.pnumber}}</td>
                 <td>{{contact.email}}</td>
+                <td>
+                    {% set slug = contact.slug ~ '-' ~ contact.id %}
+                    <a href="{{path('edit', {slug: slug})}}" style="background-color:green;width:10px;height:10px;display:block;">
+                </td>
             </tr>
         {% endfor %}
         </tbody>

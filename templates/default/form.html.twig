@@ -1,0 +1,17 @@
+
+{% block body %}
+{{ form_start(form, {'method': 'POST'}) }}
+
+    {{ form_errors(form) }}
+    {{ form_row(form.firstname) }}
+    {{ form_row(form.lastname) }}
+    {{ form_row(form.pnumber) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.note) }}
+
+
+
+    {{ form_row(form.submit, { 'label': 'Submit me' }) }}
+
+{{ form_end(form) }}
+{% endblock %}
