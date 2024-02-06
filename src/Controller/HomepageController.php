@@ -141,4 +141,20 @@ final class HomepageController extends AbstractController
     }
 
     
+    #[Route('/getNote/{id}', name: 'getNote')]
+    public function getNoteAction(
+        EntityManagerInterface $entityManager, 
+        Request $request,
+        int $id,
+    ): Response
+    {
+
+        $contact = $entityManager->getRepository(Contact::class)->findOneBy([
+            'id' => $id
+        ]);
+
+
+        return new Response($contact->getNote(), 200);
+    }
+    
 }

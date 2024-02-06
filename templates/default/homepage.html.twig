@@ -37,4 +37,17 @@
         {% endfor %}
         </tbody>
     </table>
+
+{% block js_script %}
+    <script>
+
+        $(".showNote").on("click", function(){
+            event.preventDefault();
+            this.blur(); // Manually remove focus from clicked link.
+            $.get('/getNote/'+$(this).data('id'), function(data) {
+                $('#note').text(data);
+                $('#modalWindow').modal();
+            });
+        });
+    </script>
 {% endblock %}
