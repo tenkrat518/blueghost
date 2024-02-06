@@ -30,6 +30,9 @@
                     {% set slug = contact.slug ~ '-' ~ contact.id %}
                     <a href="{{path('edit', {slug: slug})}}" style="background-color:green;width:10px;height:10px;display:block;">
                 </td>
+                <td>
+                    <a href="{{path('remove', {id: contact.id})}}" style="background-color:red;width:10px;height:10px;display:block;">
+                </td>
             </tr>
         {% endfor %}
         </tbody>

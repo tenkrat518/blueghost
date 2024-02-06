@@ -120,4 +120,25 @@ final class HomepageController extends AbstractController
     }
 
     
+    #[Route('/remove/{id}', name: 'remove')]
+    public function removeAction(
+        EntityManagerInterface $entityManager, 
+        Request $request,
+        int $id,
+    ): Response
+    {
+
+        $contact = $entityManager->getRepository(Contact::class)->findOneBy([
+            'id' => $id
+        ]);
+        $contact->setDeleted(1);
+        $contact->setDeletedFrom(new DateTime());
+        
+        $entityManager->persist($contact);
+        $entityManager->flush();
+
+        return $this->redirect('/');
+    }
+
+    
 }
