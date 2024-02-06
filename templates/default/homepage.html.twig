@@ -37,6 +37,16 @@
         {% endfor %}
         </tbody>
     </table>
+    {% if pages > 1 %}
+        {% for i in 1..pages %}
+            {% if loop.index == page %}
+                <a><button style="background-color:blue; color: white;">{{loop.index}}</button></a>
+            {% else %}
+                <a href="{{path('homepage', {page: loop.index})}}"><button>{{loop.index}}</button></a>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
 
 {% block js_script %}
     <script>

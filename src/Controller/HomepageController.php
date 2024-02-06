@@ -28,9 +28,13 @@ final class HomepageController extends AbstractController
         
         //load data per page to variable
         $contacts = $entityManager->getRepository(Contact::class)->findByPage($page, $limit);
+        $total = count($entityManager->getRepository(Contact::class)->findBy(['deleted' => 0]));
+        $pages = ceil($total / 3);
         //load homepage 
         return $this->render('default/homepage.html.twig', [
             'contacts' => $contacts,
+            'pages' => $pages,
+            'page' => $page
         ]);
     }
 
